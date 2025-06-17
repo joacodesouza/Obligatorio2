@@ -1,6 +1,7 @@
 //Joaquín de Souza (270366)
 
-package Dominio;
+package prueba;
+import Dominio.*;
 import Interfaz.*;
 
 public class Oblig2 {

@@ -186,6 +186,7 @@ public class VentanaClientes extends javax.swing.JFrame implements Observer{
         String celular = txtCelular.getText();
         String anioIngreso = txtAnioIngreso.getText();
         
+        
         Cliente cliente = new Cliente(cedula, nombre, direccion, celular, anioIngreso);
         
         modelo.agregarCliente(cliente);
@@ -204,12 +205,27 @@ public class VentanaClientes extends javax.swing.JFrame implements Observer{
     }//GEN-LAST:event_txtCedulaActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        //lstClientes.getText();
+        Cliente cliente = (Cliente) lstClientes.getSelectedValue();
+        if (cliente != null) {
+            modelo.eliminarCliente(cliente);
+            lstClientes.setListData(modelo.getListaClientes().toArray());
+            txtCedula.setText("");
+            txtNombre.setText("");
+            txtDireccion.setText("");
+            txtCelular.setText("");
+            txtAnioIngreso.setText("");
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void lstClientesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstClientesValueChanged
-        String cliente = (String)lstClientes.getSelectedValue();
-        txtCedula.setText(cliente);
+        Cliente cliente = (Cliente) lstClientes.getSelectedValue();
+        if (cliente != null) {
+            txtCedula.setText(cliente.getCedula());
+            txtNombre.setText(cliente.getNombre());
+            txtDireccion.setText(cliente.getDireccion());
+            txtCelular.setText(cliente.getCelular());
+            txtAnioIngreso.setText(cliente.getAnioDeIngreso());
+        }
         
     }//GEN-LAST:event_lstClientesValueChanged
 

@@ -4,6 +4,9 @@
  */
 package Interfaz;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author joaquindesouza
@@ -15,6 +18,13 @@ public class VentanaAutores extends javax.swing.JFrame {
      */
     public VentanaAutores() {
         initComponents();
+        //Para redimensionar la foto. Creado por chatGPT
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Imagenes/autor.jpg"));
+        Image image = icon.getImage(); // get the original image
+        Image resizedImage = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH); // width, height
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+        lblFoto.setIcon(resizedIcon);
+
     }
 
     /**
@@ -28,37 +38,48 @@ public class VentanaAutores extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        lblFoto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel1.setText("Información de autor");
 
         jLabel2.setText("Joaquín de Souza - 270366");
+
+        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/autor.jpg"))); // NOI18N
+        lblFoto.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(296, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(131, 131, 131))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(58, 58, 58)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(112, 112, 112))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
+                .addContainerGap(294, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(lblFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(59, 59, 59))
         );
 
-        setBounds(0, 0, 586, 347);
+        setBounds(0, 0, 593, 396);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -99,5 +120,6 @@ public class VentanaAutores extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblFoto;
     // End of variables declaration//GEN-END:variables
 }

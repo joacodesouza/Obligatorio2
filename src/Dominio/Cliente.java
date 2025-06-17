@@ -1,21 +1,22 @@
 //Joaquín de Souza (270366)
 
 package Dominio;
+import java.io.Serializable;
 import java.util.*;
 
-public class Cliente {
+public class Cliente implements Serializable{
     private String cedula;
     private String nombre;
     private String direccion;
     private String celular;
-    private String añoDeIngreso;
+    private String anioDeIngreso;
 
-    public Cliente(String cedula, String nombre, String direccion, String celular, String añoDeIngreso) {
+    public Cliente(String cedula, String nombre, String direccion, String celular, String anioDeIngreso) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.direccion = direccion;
         this.celular = celular;
-        this.añoDeIngreso = añoDeIngreso;
+        this.anioDeIngreso = anioDeIngreso;
     }
 
     public String getNombre() {
@@ -34,8 +35,8 @@ public class Cliente {
         return celular;
     }
 
-    public String getAñoDeIngreso() {
-        return añoDeIngreso;
+    public String getAnioDeIngreso() {
+        return anioDeIngreso;
     }
 
     public void setNombre(String nombre) {
@@ -54,8 +55,8 @@ public class Cliente {
         this.celular = celular;
     }
 
-    public void setAñoDeIngreso(String añoDeIngreso) {
-        this.añoDeIngreso = añoDeIngreso;
+    public void setAnioDeIngreso(String añoDeIngreso) {
+        this.anioDeIngreso = añoDeIngreso;
     }
     
     

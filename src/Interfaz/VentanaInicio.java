@@ -4,6 +4,8 @@ package Interfaz;
 import Dominio.*;
 import java.util.*;
 import javax.swing.JFrame;
+import java.io.*;
+import javax.swing.JOptionPane;
 
 public class VentanaInicio extends javax.swing.JFrame {
 
@@ -21,6 +23,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnClaroOscuro = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         gestionMenu = new javax.swing.JMenu();
         clientesMenuItem = new javax.swing.JMenuItem();
@@ -42,6 +45,15 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
+
+        btnClaroOscuro.setText("Claro/Oscuro");
+        btnClaroOscuro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClaroOscuroActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnClaroOscuro);
+        btnClaroOscuro.setBounds(100, 190, 200, 40);
 
         gestionMenu.setMnemonic('f');
         gestionMenu.setText("Gestión");
@@ -130,12 +142,27 @@ public class VentanaInicio extends javax.swing.JFrame {
 
         recuperacionDeDatosMenuItem.setMnemonic('a');
         recuperacionDeDatosMenuItem.setText("Recuperación de datos");
+        recuperacionDeDatosMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recuperacionDeDatosMenuItemActionPerformed(evt);
+            }
+        });
         variosMenu.add(recuperacionDeDatosMenuItem);
 
         grabacionDeDatosMenuItem.setText("Grabación de datos");
+        grabacionDeDatosMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                grabacionDeDatosMenuItemActionPerformed(evt);
+            }
+        });
         variosMenu.add(grabacionDeDatosMenuItem);
 
         miniJuegoMenuItem.setText("MiniJuego");
+        miniJuegoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miniJuegoMenuItemActionPerformed(evt);
+            }
+        });
         variosMenu.add(miniJuegoMenuItem);
 
         informacionDeAutoresMenuItem.setText("Información de autores");
@@ -166,7 +193,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void contratosMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contratosMenuItemActionPerformed
-        VentanaContratos vent = new VentanaContratos();
+        VentanaContratos vent = new VentanaContratos(modelo);
         vent.setVisible(true);
     }//GEN-LAST:event_contratosMenuItemActionPerformed
 
@@ -176,7 +203,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_clientesMenuItemActionPerformed
 
     private void empleadosMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadosMenuItemActionPerformed
-        VentanaEmpleados vent = new VentanaEmpleados();
+        VentanaEmpleados vent = new VentanaEmpleados(modelo);
         vent.setVisible(true);
     }//GEN-LAST:event_empleadosMenuItemActionPerformed
 
@@ -200,7 +227,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_salirMenuItemActionPerformed
 
     private void vehiculosMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vehiculosMenuItemActionPerformed
-        VentanaVehiculos vent = new VentanaVehiculos();
+        VentanaVehiculos vent = new VentanaVehiculos(modelo);
         vent.setVisible(true);
     }//GEN-LAST:event_vehiculosMenuItemActionPerformed
 
@@ -210,12 +237,50 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_salidasMenuItemActionPerformed
 
     private void reportesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportesMenuItemActionPerformed
-        VentanaReportes vent = new VentanaReportes();
+        VentanaReportes vent = new VentanaReportes(this, true, modelo);
         vent.setVisible(true);
     }//GEN-LAST:event_reportesMenuItemActionPerformed
 
+    private void miniJuegoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miniJuegoMenuItemActionPerformed
+        MiniJuego juego = new MiniJuego();
+        juego.setVisible(true);
+    }//GEN-LAST:event_miniJuegoMenuItemActionPerformed
+
+    private void btnClaroOscuroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClaroOscuroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClaroOscuroActionPerformed
+
+    private void grabacionDeDatosMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grabacionDeDatosMenuItemActionPerformed
+        try{
+            FileOutputStream arch = new FileOutputStream("DATOS");
+            ObjectOutputStream grabar = new ObjectOutputStream(arch);
+            grabar.writeObject(modelo);
+            grabar.close();
+        }
+        catch(IOException e){
+            JOptionPane.showMessageDialog(this, e.getMessage() + "No se pudo serializar", "Error", 0);
+        }
+    }//GEN-LAST:event_grabacionDeDatosMenuItemActionPerformed
+
+    private void recuperacionDeDatosMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recuperacionDeDatosMenuItemActionPerformed
+        try{    
+            FileInputStream arch = new FileInputStream("DATOS");
+            ObjectInputStream leer = new ObjectInputStream(arch);
+            Sistema sis = (Sistema)leer.readObject();
+            leer.close();
+            modelo = sis;
+        }
+        catch(IOException e){
+            JOptionPane.showMessageDialog(this, e.getMessage() + "No se pudo des-serializar", "Error", 0);
+        }
+        catch (ClassNotFoundException e){
+            JOptionPane.showMessageDialog(this, e.getMessage() + "Error al 'castear' el sistema", "Error", 0);
+        }
+    }//GEN-LAST:event_recuperacionDeDatosMenuItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClaroOscuro;
     private javax.swing.JMenuItem clientesMenuItem;
     private javax.swing.JMenuItem contratosMenuItem;
     private javax.swing.JMenuItem empleadosMenuItem;
