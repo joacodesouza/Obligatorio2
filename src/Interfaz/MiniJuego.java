@@ -1,4 +1,4 @@
-//Joaquin de Souza (270366)
+//Joaquín de Souza (270366)
 
 //creado por ChatGPT
 package Interfaz;

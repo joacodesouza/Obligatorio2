@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 public class VentanaInicio extends javax.swing.JFrame {
 
     public VentanaInicio(Sistema sis) {
+        setTitle("Inicio - Autor: Joaquín de Souza (270366)");
         modelo = sis;
         initComponents();
     }

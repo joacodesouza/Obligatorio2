@@ -1,4 +1,4 @@
-//Joaquin de Souza (270366)
+//Joaquín de Souza (270366)
 
 package Interfaz;
 import Dominio.*;
@@ -7,6 +7,7 @@ public class VentanaReportes extends javax.swing.JDialog {
 
     public VentanaReportes(java.awt.Frame parent, boolean modal, Sistema sis) {
         super(parent, modal);
+        setTitle("Reportes");
         modelo = sis;
         initComponents();
     }

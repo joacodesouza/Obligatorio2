@@ -7,6 +7,7 @@ import java.util.*;
 public class VentanaClientes extends javax.swing.JFrame implements Observer{
 
     public VentanaClientes(Sistema sis) {
+        setTitle("Clientes");
         modelo = sis;
         initComponents();
         lstClientes.setListData(modelo.getListaClientes().toArray());

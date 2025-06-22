@@ -1,4 +1,4 @@
-//Joaquin de Souza (270366)
+//Joaquín de Souza (270366)
 
 package Interfaz;
 import Dominio.*;
@@ -7,6 +7,7 @@ import java.util.*;
 public class VentanaVehiculos extends javax.swing.JFrame {
 
     public VentanaVehiculos(Sistema sis) {
+        setTitle("Vehículos");
         modelo = sis;
         initComponents();
         lstVehiculos.setListData(modelo.getListaVehiculos().toArray());

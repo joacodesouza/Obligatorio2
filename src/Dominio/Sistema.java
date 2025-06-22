@@ -57,10 +57,12 @@ public class Sistema implements Serializable{
     
     public ArrayList<Cliente> agregarCliente(Cliente unCliente) {
         if (clienteYaExiste(unCliente)) {
-            JOptionPane.showMessageDialog(null, "El cliente ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El cliente ya existe", "Error",
+            JOptionPane.ERROR_MESSAGE);
         } else {
             listaClientes.add(unCliente);
-            JOptionPane.showMessageDialog(null, "El cliente ha sido resgistrado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El cliente ha sido resgistrado", 
+            "Informacion", JOptionPane.INFORMATION_MESSAGE);
         }
         return listaClientes;
     }
@@ -75,10 +77,13 @@ public class Sistema implements Serializable{
     }
     
     public ArrayList<Cliente> eliminarCliente(Cliente unCliente) {
+        eliminarContratosPorCliente(unCliente);
         if (listaClientes.remove(unCliente)) {
-            JOptionPane.showMessageDialog(null, "El cliente ha sido eliminado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El cliente ha sido eliminado", 
+            "Informacion", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "El cliente no existe", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El cliente no existe", "Error", 
+            JOptionPane.ERROR_MESSAGE);
         }
         return listaClientes;
     }
@@ -87,10 +92,12 @@ public class Sistema implements Serializable{
     
     public ArrayList<Vehiculo> agregarVehiculo(Vehiculo unVehiculo) {
         if (vehiculoYaExiste(unVehiculo)) {
-            JOptionPane.showMessageDialog(null, "La matricula ya está registrada", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "La matricula ya está registrada", 
+            "Error", JOptionPane.ERROR_MESSAGE);
         } else {
             listaVehiculos.add(unVehiculo);
-            JOptionPane.showMessageDialog(null, "El vehículo ha sido resgistrado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El vehículo ha sido resgistrado", 
+            "Informacion", JOptionPane.INFORMATION_MESSAGE);
         }
         return listaVehiculos;
     }
@@ -106,9 +113,11 @@ public class Sistema implements Serializable{
     
     public ArrayList<Vehiculo> eliminarVehiculo(Vehiculo unVehiculo) {
         if (listaVehiculos.remove(unVehiculo)) {
-            JOptionPane.showMessageDialog(null, "El vehículo ha sido eliminado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El vehículo ha sido eliminado", 
+            "Informacion", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "El vehículo no existe", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El vehículo no existe", "Error", 
+            JOptionPane.ERROR_MESSAGE);
         }
         return listaVehiculos;
     }
@@ -116,16 +125,18 @@ public class Sistema implements Serializable{
     //APARTADO EMPLEADOS
     
     public ArrayList<Empleado> agregarEmpleado(Empleado unEmpleado) {
-        if (vehiculoYaExiste(unEmpleado)) {
-            JOptionPane.showMessageDialog(null, "El empleado ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+        if (empleadoYaExiste(unEmpleado)) {
+            JOptionPane.showMessageDialog(null, "El empleado ya existe", "Error", 
+            JOptionPane.ERROR_MESSAGE);
         } else {
             listaEmpleados.add(unEmpleado);
-            JOptionPane.showMessageDialog(null, "El empleado ha sido resgistrado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El empleado ha sido resgistrado", 
+            "Informacion", JOptionPane.INFORMATION_MESSAGE);
         }
         return listaEmpleados;
     }
     
-    private boolean vehiculoYaExiste(Empleado unEmpleado){
+    private boolean empleadoYaExiste(Empleado unEmpleado){
         for(Empleado empleado : listaEmpleados ){
             if (empleado.getCedula().equals(unEmpleado.getCedula())){
                 return true;
@@ -136,10 +147,33 @@ public class Sistema implements Serializable{
     
     public ArrayList<Empleado> eliminarEmpleado(Empleado unEmpleado) {
         if (listaEmpleados.remove(unEmpleado)) {
-            JOptionPane.showMessageDialog(null, "El empleado ha sido eliminado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El empleado ha sido eliminado", 
+            "Informacion", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "El empleado no existe", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El empleado no existe", "Error", 
+            JOptionPane.ERROR_MESSAGE);
         }
         return listaEmpleados;
+    }
+    
+    //APARTADO CONTRATOS
+
+    public ArrayList<Contrato> agregarContrato(Contrato unContrato) {
+        listaContratos.add(unContrato);
+        JOptionPane.showMessageDialog(null, "El contrato ha sido registrado", 
+        "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        return listaContratos;
+    }
+
+    public ArrayList<Contrato> eliminarContratosPorCliente(Cliente unCliente) {
+        Iterator<Contrato> it = listaContratos.iterator();
+        while (it.hasNext()) {
+            Contrato c = it.next();
+            if (c.getCliente().equals(unCliente)) {
+                it.remove();
+                c.decrementarContador();
+            }
+        }
+        return listaContratos;
     }
 }
