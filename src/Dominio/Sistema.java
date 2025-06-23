@@ -32,8 +32,7 @@ public class Sistema extends Observable implements Serializable{
     
 
     public ArrayList<Cliente> getListaClientes() {
-        setChanged();
-        notifyObservers();
+        
         return listaClientes;
     }
 

@@ -16,7 +16,7 @@ public class VentanaContratos extends javax.swing.JFrame implements Observer{
         lstEmpleados.setListData(modelo.getListaEmpleados().toArray());
         lstContratos.setListData(modelo.getListaContratos().toArray());
         lblNumContrato.setText("Número de contrato: " + (modelo.getListaContratos().size() + 1));
-        modelo.getListaClientes().addObserver(this);
+        modelo.addObserver(this);
     }
 
     /**
@@ -253,5 +253,9 @@ public class VentanaContratos extends javax.swing.JFrame implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         lstClientes.setListData(modelo.getListaClientes().toArray());
+        lstVehiculos.setListData(modelo.getListaVehiculos().toArray());
+        lstEmpleados.setListData(modelo.getListaEmpleados().toArray());
+        lstContratos.setListData(modelo.getListaContratos().toArray());
+        lblNumContrato.setText("Número de contrato: " + (modelo.getListaContratos().size() + 1));
     }
 }
