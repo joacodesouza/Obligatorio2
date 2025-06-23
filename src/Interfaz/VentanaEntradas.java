@@ -4,6 +4,7 @@ package Interfaz;
 import Dominio.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 
 public class VentanaEntradas extends javax.swing.JFrame {
 
@@ -163,7 +164,14 @@ public class VentanaEntradas extends javax.swing.JFrame {
         Empleado e = (Empleado) lstEmpleados.getSelectedValue();
         if (v != null && e != null) {
             DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-            LocalDateTime fh = LocalDateTime.parse(txtFechaHora.getText(), f);
+            //LocalDateTime fh = LocalDateTime.parse(txtFechaHora.getText(), f);
+            LocalDateTime fh;
+            try {
+                fh = LocalDateTime.parse(txtFechaHora.getText(), f);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Fecha y hora inválidas", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             modelo.registrarEntrada(v, e, fh, txtNotas.getText());
             lstVehiculos.setListData(modelo.vehiculosDisponiblesParaEntrada().toArray());
             txtFechaHora.setText("");

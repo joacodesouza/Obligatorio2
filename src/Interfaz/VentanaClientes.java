@@ -3,6 +3,7 @@
 package Interfaz;
 import Dominio.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class VentanaClientes extends javax.swing.JFrame implements Observer{
 
@@ -187,6 +188,13 @@ public class VentanaClientes extends javax.swing.JFrame implements Observer{
         String celular = txtCelular.getText();
         String anioIngreso = txtAnioIngreso.getText();
         
+        if (cedula.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || 
+            celular.isEmpty() || anioIngreso.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios",
+            "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         
         Cliente cliente = new Cliente(cedula, nombre, direccion, celular, anioIngreso);
         
@@ -253,6 +261,7 @@ public class VentanaClientes extends javax.swing.JFrame implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
+        
     }
 }
 

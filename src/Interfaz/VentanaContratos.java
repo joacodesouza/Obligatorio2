@@ -2,8 +2,10 @@
 
 package Interfaz;
 import Dominio.*;
+import java.util.*;
+import javax.swing.JOptionPane;
 
-public class VentanaContratos extends javax.swing.JFrame {
+public class VentanaContratos extends javax.swing.JFrame implements Observer{
 
     public VentanaContratos(Sistema sis) {
         setTitle("Contratos");
@@ -14,6 +16,7 @@ public class VentanaContratos extends javax.swing.JFrame {
         lstEmpleados.setListData(modelo.getListaEmpleados().toArray());
         lstContratos.setListData(modelo.getListaContratos().toArray());
         lblNumContrato.setText("Número de contrato: " + (modelo.getListaContratos().size() + 1));
+        modelo.getListaClientes().addObserver(this);
     }
 
     /**
@@ -195,7 +198,13 @@ public class VentanaContratos extends javax.swing.JFrame {
         Empleado empleado = (Empleado) lstEmpleados.getSelectedValue();
 
         if (cliente != null && vehiculo != null && empleado != null) {
-            int valor = Integer.parseInt(txtValorMensual.getText());
+            int valor;
+            try {
+                valor = Integer.parseInt(txtValorMensual.getText());
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Valor mensual inválido", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             Contrato contrato = new Contrato(cliente, vehiculo, empleado, valor);
 
             modelo.agregarContrato(contrato);
@@ -240,4 +249,9 @@ public class VentanaContratos extends javax.swing.JFrame {
     private javax.swing.JTextField txtValorMensual;
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
+
+    @Override
+    public void update(Observable o, Object arg) {
+        lstClientes.setListData(modelo.getListaClientes().toArray());
+    }
 }

@@ -2,6 +2,7 @@
 
 package Interfaz;
 import Dominio.*;
+import javax.swing.JOptionPane;
 
 public class VentanaEmpleados extends javax.swing.JFrame {
 
@@ -171,6 +172,13 @@ public class VentanaEmpleados extends javax.swing.JFrame {
         String nombre = txtNombre.getText();
         String direccion = txtDireccion.getText();
         String numEmpleado = txtNumero.getText();
+        
+        if (cedula.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || 
+            numEmpleado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios",
+            "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         Empleado empleado = new Empleado(cedula, nombre, direccion, numEmpleado);
         

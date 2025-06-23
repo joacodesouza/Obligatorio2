@@ -5,12 +5,13 @@ package Interfaz;
 import Dominio.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 
 public class VentanaSalidas extends javax.swing.JFrame {
 
     public VentanaSalidas(Sistema sis) {
         setTitle("Salidas");
-        sis = modelo;
+        modelo = sis;
         initComponents();
         lstEntradas.setListData(modelo.getEntradasAbiertas().toArray());
         lstEmpleados.setListData(modelo.getListaEmpleados().toArray());
@@ -151,7 +152,14 @@ public class VentanaSalidas extends javax.swing.JFrame {
         Empleado emp = (Empleado) lstEmpleados.getSelectedValue();
         if (ent != null && emp != null) {
             DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-            LocalDateTime fh = LocalDateTime.parse(txtFechaHora.getText(), f);
+            //LocalDateTime fh = LocalDateTime.parse(txtFechaHora.getText(), f);
+            LocalDateTime fh;
+            try {
+                fh = LocalDateTime.parse(txtFechaHora.getText(), f);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Fecha y hora inválidas", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             modelo.registrarSalida(ent, emp, fh, txtNotas.getText());
             lstEntradas.setListData(modelo.getEntradasAbiertas().toArray());
             txtFechaHora.setText("");

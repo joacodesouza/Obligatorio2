@@ -3,6 +3,7 @@
 package Interfaz;
 import Dominio.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class VentanaVehiculos extends javax.swing.JFrame {
 
@@ -175,6 +176,13 @@ public class VentanaVehiculos extends javax.swing.JFrame {
         String marca = txtMarca.getText();
         String modeloA = txtModelo.getText();
         String estado = txtEstado.getText();
+        
+        if (matricula.isEmpty() || marca.isEmpty() || modeloA.isEmpty() || 
+            estado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios",
+            "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         Vehiculo vehiculo = new Vehiculo(matricula, marca, modeloA, estado);
         

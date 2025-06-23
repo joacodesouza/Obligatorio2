@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import javax.swing.JOptionPane;
 
-public class Sistema implements Serializable{
+public class Sistema extends Observable implements Serializable{
     private ArrayList<Cliente> listaClientes;
     private ArrayList<Vehiculo> listaVehiculos;
     private ArrayList<Empleado> listaEmpleados;
@@ -15,6 +15,7 @@ public class Sistema implements Serializable{
     private ArrayList<Entrada> listaEntradas;
     private ArrayList<Salida> listaSalidas;
     private ArrayList<ServicioAdicional> listaServicios;
+    private ElementoObservable obs;
 
 
     public Sistema() {
@@ -25,11 +26,14 @@ public class Sistema implements Serializable{
         this.listaEntradas = new ArrayList<>();
         this.listaSalidas = new ArrayList<>();
         this.listaServicios = new ArrayList<>();
+        obs = new ElementoObservable();
         
     }
     
 
     public ArrayList<Cliente> getListaClientes() {
+        setChanged();
+        notifyObservers();
         return listaClientes;
     }
 
@@ -59,6 +63,8 @@ public class Sistema implements Serializable{
 
     public void setListaClientes(ArrayList<Cliente> listaClientes) {
         this.listaClientes = listaClientes;
+        setChanged();
+        notifyObservers();
     }
 
     public void setListaVehiculos(ArrayList<Vehiculo> listaVehiculos) {
@@ -96,6 +102,7 @@ public class Sistema implements Serializable{
             JOptionPane.showMessageDialog(null, "El cliente ha sido resgistrado", 
             "Informacion", JOptionPane.INFORMATION_MESSAGE);
         }
+        obs.notificar();
         return listaClientes;
     }
     
@@ -117,6 +124,7 @@ public class Sistema implements Serializable{
             JOptionPane.showMessageDialog(null, "El cliente no existe", "Error", 
             JOptionPane.ERROR_MESSAGE);
         }
+        obs.notificar();
         return listaClientes;
     }
     
@@ -131,6 +139,7 @@ public class Sistema implements Serializable{
             JOptionPane.showMessageDialog(null, "El vehículo ha sido resgistrado", 
             "Informacion", JOptionPane.INFORMATION_MESSAGE);
         }
+        obs.notificar();
         return listaVehiculos;
     }
     
@@ -151,6 +160,7 @@ public class Sistema implements Serializable{
             JOptionPane.showMessageDialog(null, "El vehículo no existe", "Error", 
             JOptionPane.ERROR_MESSAGE);
         }
+        obs.notificar();
         return listaVehiculos;
     }
     
@@ -165,6 +175,7 @@ public class Sistema implements Serializable{
             JOptionPane.showMessageDialog(null, "El empleado ha sido resgistrado", 
             "Informacion", JOptionPane.INFORMATION_MESSAGE);
         }
+        obs.notificar();
         return listaEmpleados;
     }
     
@@ -185,6 +196,7 @@ public class Sistema implements Serializable{
             JOptionPane.showMessageDialog(null, "El empleado no existe", "Error", 
             JOptionPane.ERROR_MESSAGE);
         }
+        obs.notificar();
         return listaEmpleados;
     }
     
@@ -194,6 +206,7 @@ public class Sistema implements Serializable{
         listaContratos.add(unContrato);
         JOptionPane.showMessageDialog(null, "El contrato ha sido registrado", 
         "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        obs.notificar();
         return listaContratos;
     }
 
@@ -206,6 +219,7 @@ public class Sistema implements Serializable{
                 c.decrementarContador();
             }
         }
+        obs.notificar();
         return listaContratos;
     }
     
@@ -267,6 +281,7 @@ public class Sistema implements Serializable{
         listaEntradas.add(ent);
         String contrato = tieneContrato(v) ? "Tiene contrato" : "No tiene contrato";
         JOptionPane.showMessageDialog(null, contrato, "Información", JOptionPane.INFORMATION_MESSAGE);
+        obs.notificar();
         return ent;
     }
 
@@ -286,12 +301,18 @@ public class Sistema implements Serializable{
         long minutos = dur.toMinutes() % 60;
         String contrato = tieneContrato(ent.getVehiculo()) ? "Tiene contrato" : "No tiene contrato";
         JOptionPane.showMessageDialog(null, "Tiempo en parking: " + horas + " horas " + minutos + " minutos\n" + contrato, "Información", JOptionPane.INFORMATION_MESSAGE);
+        obs.notificar();
         return sal;
     }
 
     public ServicioAdicional registrarServicio(String tipo, Vehiculo v, Empleado e, LocalDateTime fh, int costo) {
         ServicioAdicional ser = new ServicioAdicional(tipo, v, e, fh, costo);
         listaServicios.add(ser);
+        obs.notificar();
         return ser;
+    }
+    
+    public void addObserver(Object obj){
+        obs.addObserver((Observer)obj);
     }
 }
