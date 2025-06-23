@@ -2,6 +2,8 @@
 
 package Dominio;
 import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 import javax.swing.JOptionPane;
 
@@ -10,6 +12,9 @@ public class Sistema implements Serializable{
     private ArrayList<Vehiculo> listaVehiculos;
     private ArrayList<Empleado> listaEmpleados;
     private ArrayList<Contrato> listaContratos;
+    private ArrayList<Entrada> listaEntradas;
+    private ArrayList<Salida> listaSalidas;
+    private ArrayList<ServicioAdicional> listaServicios;
 
 
     public Sistema() {
@@ -17,8 +22,11 @@ public class Sistema implements Serializable{
         this.listaVehiculos = new ArrayList<>();
         this.listaEmpleados = new ArrayList<>();
         this.listaContratos = new ArrayList<>();
+        this.listaEntradas = new ArrayList<>();
+        this.listaSalidas = new ArrayList<>();
+        this.listaServicios = new ArrayList<>();
+        
     }
-    
     
 
     public ArrayList<Cliente> getListaClientes() {
@@ -36,6 +44,18 @@ public class Sistema implements Serializable{
     public ArrayList<Contrato> getListaContratos() {
         return listaContratos;
     }
+    
+    public ArrayList<Entrada> getListaEntradas() {
+        return listaEntradas;
+    }
+
+    public ArrayList<Salida> getListaSalidas() {
+        return listaSalidas;
+    }
+
+    public ArrayList<ServicioAdicional> getListaServicios() {
+        return listaServicios;
+    }
 
     public void setListaClientes(ArrayList<Cliente> listaClientes) {
         this.listaClientes = listaClientes;
@@ -51,6 +71,18 @@ public class Sistema implements Serializable{
 
     public void setListaContratos(ArrayList<Contrato> listaContratos) {
         this.listaContratos = listaContratos;
+    }
+    
+    public void setListaEntradas(ArrayList<Entrada> listaEntradas) {
+        this.listaEntradas = listaEntradas;
+    }
+
+    public void setListaSalidas(ArrayList<Salida> listaSalidas) {
+        this.listaSalidas = listaSalidas;
+    }
+
+    public void setListaServicios(ArrayList<ServicioAdicional> listaServicios) {
+        this.listaServicios = listaServicios;
     }
     
     //APARTADO CLIENTES
@@ -175,5 +207,91 @@ public class Sistema implements Serializable{
             }
         }
         return listaContratos;
+    }
+    
+    // APARTADO MOVIMIENTOS
+
+    public boolean tieneContrato(Vehiculo v) {
+        for (Contrato c : listaContratos) {
+            if (c.getVehiculo().equals(v)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean salidaRegistrada(Entrada e) {
+        for (Salida s : listaSalidas) {
+            if (s.getEntrada().equals(e)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean vehiculoDentro(Vehiculo v) {
+        for (Entrada e : listaEntradas) {
+            if (e.getVehiculo().equals(v) && !salidaRegistrada(e)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<Vehiculo> vehiculosDisponiblesParaEntrada() {
+        ArrayList<Vehiculo> lista = new ArrayList<>();
+        for (Vehiculo v : listaVehiculos) {
+            if (!vehiculoDentro(v)) {
+                lista.add(v);
+            }
+        }
+        return lista;
+    }
+
+    public ArrayList<Entrada> getEntradasAbiertas() {
+        ArrayList<Entrada> lista = new ArrayList<>();
+        for (Entrada e : listaEntradas) {
+            if (!salidaRegistrada(e)) {
+                lista.add(e);
+            }
+        }
+        return lista;
+    }
+
+    public Entrada registrarEntrada(Vehiculo v, Empleado e, LocalDateTime fh, String notas) {
+        if (vehiculoDentro(v)) {
+            JOptionPane.showMessageDialog(null, "El vehículo ya está dentro del parking", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        Entrada ent = new Entrada(v, e, fh, notas);
+        listaEntradas.add(ent);
+        String contrato = tieneContrato(v) ? "Tiene contrato" : "No tiene contrato";
+        JOptionPane.showMessageDialog(null, contrato, "Información", JOptionPane.INFORMATION_MESSAGE);
+        return ent;
+    }
+
+    public Salida registrarSalida(Entrada ent, Empleado e, LocalDateTime fh, String notas) {
+        if (salidaRegistrada(ent)) {
+            JOptionPane.showMessageDialog(null, "La entrada ya tiene registrada una salida", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        if (fh.isBefore(ent.getFechaHora())) {
+            JOptionPane.showMessageDialog(null, "La fecha/hora de salida debe ser posterior a la entrada", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        Salida sal = new Salida(ent, e, fh, notas);
+        listaSalidas.add(sal);
+        Duration dur = Duration.between(ent.getFechaHora(), fh);
+        long horas = dur.toHours();
+        long minutos = dur.toMinutes() % 60;
+        String contrato = tieneContrato(ent.getVehiculo()) ? "Tiene contrato" : "No tiene contrato";
+        JOptionPane.showMessageDialog(null, "Tiempo en parking: " + horas + " horas " + minutos + " minutos\n" + contrato, "Información", JOptionPane.INFORMATION_MESSAGE);
+        return sal;
+    }
+
+    public ServicioAdicional registrarServicio(String tipo, Vehiculo v, Empleado e, LocalDateTime fh, int costo) {
+        ServicioAdicional ser = new ServicioAdicional(tipo, v, e, fh, costo);
+        listaServicios.add(ser);
+        return ser;
     }
 }

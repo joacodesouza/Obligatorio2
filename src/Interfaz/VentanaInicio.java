@@ -209,12 +209,12 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_empleadosMenuItemActionPerformed
 
     private void entradasMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entradasMenuItemActionPerformed
-        VentanaEntradas vent = new VentanaEntradas();
+        VentanaEntradas vent = new VentanaEntradas(modelo);
         vent.setVisible(true);
     }//GEN-LAST:event_entradasMenuItemActionPerformed
 
     private void serviciosAdicionalesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviciosAdicionalesMenuItemActionPerformed
-        VentanaServicios vent = new VentanaServicios();
+        VentanaServicios vent = new VentanaServicios(modelo);
         vent.setVisible(true);
     }//GEN-LAST:event_serviciosAdicionalesMenuItemActionPerformed
 
@@ -233,7 +233,7 @@ public class VentanaInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_vehiculosMenuItemActionPerformed
 
     private void salidasMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salidasMenuItemActionPerformed
-        VentanaSalidas vent = new VentanaSalidas();
+        VentanaSalidas vent = new VentanaSalidas(modelo);
         vent.setVisible(true);
     }//GEN-LAST:event_salidasMenuItemActionPerformed
 
